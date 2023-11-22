@@ -1,0 +1,28 @@
+{
+    "name": "kalider/storage",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Kalider\\Libs\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sapotong",
+            "email": "new.m.tah@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "php": "^7.4",
+        "phpunit/phpunit": "^9.6"
+    },
+    "require": {
+        "league/flysystem": "^2.5",
+        "league/flysystem-aws-s3-v3": "^2.5",
+        "symfony/http-foundation": "^5.4",
+        "symfony/mime": "^5.4"
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit tests --testdox"
+    }
+}
