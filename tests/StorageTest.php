@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Kalider\Libs\Exception\DiskNotFoundException;
 use Kalider\Libs\File\File;
 use Kalider\Libs\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 final class StorageTest extends TestCase
 {
@@ -84,5 +85,16 @@ final class StorageTest extends TestCase
 
         Storage::disk()->delete($path);
         $this->assertFalse(Storage::disk()->fileExists($path));
+    }
+
+    public function testDownload() : void {
+        $file = new File(__DIR__ . '/storage/assets/bar.txt');
+
+        $path = $file->store('deleted');
+
+        $this->assertTrue(Storage::disk()->fileExists($path));
+
+        $fileDownload = Storage::download($path);
+        $this->assertInstanceOf(StreamedResponse::class, $fileDownload);
     }
 }

@@ -7,6 +7,8 @@ use Kalider\Libs\DriverResolver\BaseDriverResolver;
 use Kalider\Libs\DriverResolver\LocalDriverResolver;
 use Kalider\Libs\DriverResolver\S3DriverResolver;
 use Kalider\Libs\Exception\DiskNotFoundException;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use voku\helper\ASCII;
 
 class Storage
 {
@@ -27,7 +29,7 @@ class Storage
         }
 
         static::$defaultDisk = $configs['default'];
-        
+
         if (!isset($configs['disks'])) {
             throw new MissingRequiredParameterException("Missing required parameter 'disks' in configuration");
         }
@@ -69,7 +71,8 @@ class Storage
         }
     }
 
-    public static function disk(string $name = null): Filesystem {
+    public static function disk(string $name = null): Filesystem
+    {
         $name = $name ?? static::$defaultDisk;
 
         if (!isset(static::$disks[$name])) {
@@ -79,9 +82,10 @@ class Storage
         return static::$disks[$name];
     }
 
-    public static function url(string $pathfile, string $disk = null) : string {
+    public static function url(string $pathfile, string $disk = null): string
+    {
         $disk = $disk ?? static::$defaultDisk;
-        
+
         if (!isset(static::$configs['disks'][$disk])) {
             throw new DiskNotFoundException("Disk '{$disk}' not found.");
         }
@@ -91,5 +95,54 @@ class Storage
         }
 
         return rtrim(static::$configs['disks'][$disk]['url'], '/') . '/' . ltrim($pathfile, '/');
+    }
+
+    /**
+     * Create a streamed response for a given file.
+     *
+     * @param  string  $path
+     * @param  string|null  $name
+     * @param  string|null  $disk
+     * @param  array  $headers
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    public static function download(string $path, string $name = null, string $disk = null, array $headers = [])
+    {
+        $response = new StreamedResponse();
+
+        if (!array_key_exists('Content-Type', $headers)) {
+            $headers['Content-Type'] = static::disk($disk)->mimeType($path);
+        }
+
+        if (!array_key_exists('Content-Length', $headers)) {
+            $headers['Content-Length'] = static::disk($disk)->fileSize($path);
+        }
+
+        if (!array_key_exists('Content-Disposition', $headers)) {
+            $filename = $name ?? basename($path);
+
+            $disposition = $response->headers->makeDisposition(
+                'attachment',
+                $filename,
+                static::fallbackName($filename)
+            );
+
+            $headers['Content-Disposition'] = $disposition;
+        }
+
+        $response->headers->replace($headers);
+
+        $response->setCallback(function () use ($path, $disk) {
+            $stream = static::disk($disk)->readStream($path);
+            fpassthru($stream);
+            fclose($stream);
+        });
+
+        return $response;
+    }
+
+    protected static function fallbackName($name)
+    {
+        return str_replace('%', '', ASCII::to_ascii((string) $name, 'en'));
     }
 }

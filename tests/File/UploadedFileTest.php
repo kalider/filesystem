@@ -23,9 +23,30 @@ final class UploadedFileTest extends TestCase
         $_FILES['single'] = array(
             'name' => 'foo.txt',
             'tmp_name' => __DIR__ . '/../storage/assets/foo.txt',
+            'type' => 'text/plain',
             'error' => UPLOAD_ERR_OK
         );
+
+        $_FILES['multiple'] = array(
+            'name' => array(
+                'foo.txt',
+                'bar.txt'
+            ),
+            'tmp_name' => array(
+               __DIR__ . '/../storage/assets/foo.txt',
+               __DIR__ . '/../storage/assets/bar.txt'
+            ),
+            'error' => array(
+                UPLOAD_ERR_OK,
+                UPLOAD_ERR_OK
+            ),
+            'type' => array(
+                'text/plain',
+                'text/plain'
+            )
+        );
     }
+
     public function testStore(): void
     {
         $file = new UploadedFile($_FILES['single']['tmp_name'], $_FILES['single']['name']);
@@ -44,5 +65,18 @@ final class UploadedFileTest extends TestCase
 
         $this->assertEquals('uploaded/store-as.' . $file->guessExtension(), $path);
         $this->assertTrue(Storage::disk()->fileExists($path));
+    }
+
+    public function testGetInstanceByNameSingle() : void {
+        $file = UploadedFile::getInstanceByName('single');
+
+        $this->assertInstanceOf(UploadedFile::class, $file);
+    }
+    
+    public function testGetInstanceByNameMultiple() : void {
+        $files = UploadedFile::getInstanceByName('multiple');
+
+        $this->assertIsArray($files);
+        $this->assertInstanceOf(UploadedFile::class, $files[0]);
     }
 }
