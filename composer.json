@@ -1,5 +1,5 @@
 {
-    "name": "kalider/storage",
+    "name": "kalider/libs",
     "type": "library",
     "autoload": {
         "psr-4": {
