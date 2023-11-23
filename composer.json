@@ -1,6 +1,7 @@
 {
     "name": "kalider/libs",
     "type": "library",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Kalider\\Libs\\": "src/"
@@ -13,10 +14,10 @@
         }
     ],
     "require-dev": {
-        "php": "^7.4",
         "phpunit/phpunit": "^9.6"
     },
     "require": {
+        "php": ">=7.4",
         "league/flysystem": "^2.5",
         "league/flysystem-aws-s3-v3": "^2.5",
         "symfony/http-foundation": "^5.4",
