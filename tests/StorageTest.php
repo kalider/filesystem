@@ -94,7 +94,7 @@ final class StorageTest extends TestCase
 
         $this->assertTrue(Storage::disk()->fileExists($path));
 
-        $fileDownload = Storage::download($path);
-        $this->assertInstanceOf(StreamedResponse::class, $fileDownload);
+        $this->expectOutputString("ini file bar");
+        Storage::download($path);
     }
 }

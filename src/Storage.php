@@ -104,9 +104,9 @@ class Storage
      * @param  string|null  $name
      * @param  string|null  $disk
      * @param  array  $headers
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     * @return void
      */
-    public static function download(string $path, string $name = null, string $disk = null, array $headers = [])
+    public static function download(string $path, string $name = null, string $disk = null, array $headers = []): void
     {
         $response = new StreamedResponse();
 
@@ -138,7 +138,7 @@ class Storage
             fclose($stream);
         });
 
-        return $response;
+        $response->sendHeaders()->sendContent();
     }
 
     protected static function fallbackName($name)
