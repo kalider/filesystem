@@ -6,8 +6,10 @@ use PHPUnit\Framework\TestCase;
 use Kalider\Libs\File\File;
 use Kalider\Libs\Storage;
 
-final class FileTest extends TestCase {
-    protected function setUp() : void {
+final class FileTest extends TestCase
+{
+    protected function setUp(): void
+    {
         Storage::init([
             'default' => 'public',
             'disks' => [
@@ -18,7 +20,9 @@ final class FileTest extends TestCase {
             ]
         ]);
     }
-    public function testStore() : void {
+
+    public function testStore(): void
+    {
         $file = new File(__DIR__ . '/../storage/assets/bar.txt');
 
         $path = $file->store('file');
@@ -26,8 +30,9 @@ final class FileTest extends TestCase {
         $this->assertEquals($file->hashName('file'), $path);
         $this->assertTrue(Storage::disk()->fileExists($path));
     }
-    
-    public function testStoreAs() : void {
+
+    public function testStoreAs(): void
+    {
         $file = new File(__DIR__ . '/../storage/assets/bar.txt');
 
         $path = $file->storeAs('file', 'store-as');
