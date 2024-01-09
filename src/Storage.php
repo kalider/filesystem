@@ -7,6 +7,7 @@ use Kalider\Libs\DriverResolver\BaseDriverResolver;
 use Kalider\Libs\DriverResolver\LocalDriverResolver;
 use Kalider\Libs\DriverResolver\S3DriverResolver;
 use Kalider\Libs\Exception\DiskNotFoundException;
+use Kalider\Libs\Exception\MissingRequiredParameterException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use voku\helper\ASCII;
 
