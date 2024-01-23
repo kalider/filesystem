@@ -1,6 +1,6 @@
 <?php
 
-namespace Kalider\Libs\DriverResolver;
+namespace Kalider\Filesystem\DriverResolver;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;

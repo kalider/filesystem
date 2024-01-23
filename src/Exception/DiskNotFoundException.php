@@ -1,5 +1,5 @@
 <?php
 
-namespace Kalider\Libs\Exception;
+namespace Kalider\Filesystem\Exception;
 
 class DiskNotFoundException extends \Exception {};

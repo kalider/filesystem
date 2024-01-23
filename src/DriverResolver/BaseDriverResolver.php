@@ -1,8 +1,8 @@
 <?php
 
-namespace Kalider\Libs\DriverResolver;
+namespace Kalider\Filesystem\DriverResolver;
 
-use Kalider\Libs\Exception\MissingRequiredParameterException;
+use Kalider\Filesystem\Exception\MissingRequiredParameterException;
 
 abstract class BaseDriverResolver {
     protected function requireParams($requiredParams, array $params)

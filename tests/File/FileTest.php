@@ -3,8 +3,10 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use Kalider\Libs\File\File;
-use Kalider\Libs\Storage;
+use Kalider\Filesystem\File\File;
+use Kalider\Filesystem\Storage;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\ConstraintViolationList;
 
 final class FileTest extends TestCase
 {
@@ -39,5 +41,25 @@ final class FileTest extends TestCase
 
         $this->assertEquals('file/store-as.' . $file->guessExtension(), $path);
         $this->assertTrue(Storage::disk()->fileExists($path));
+    }
+
+    public function testValidation(): void
+    {
+        $file = new File(__DIR__ . '/../storage/assets/bar.txt');
+
+        $violations = $file->validate([
+            new Assert\NotBlank(),
+            new Assert\File([
+                'maxSize' => '1024k',
+                'mimeTypes' => [
+                    'application/pdf',
+                    'application/x-pdf',
+                ],
+                'mimeTypesMessage' => 'Please upload a valid PDF',
+            ])
+        ]);
+
+        $this->assertInstanceOf(ConstraintViolationList::class, $violations);
+        $this->assertEquals('Please upload a valid PDF', $violations[0]->getMessage());
     }
 }

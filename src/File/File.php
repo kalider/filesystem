@@ -1,8 +1,8 @@
 <?php
 
-namespace Kalider\Libs\File;
+namespace Kalider\Filesystem\File;
 
-use Kalider\Libs\File\Traits\FileTraits;
+use Kalider\Filesystem\File\Traits\FileTraits;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 
 class File extends SymfonyFile

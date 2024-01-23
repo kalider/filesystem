@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 use League\Flysystem\Filesystem;
 use PHPUnit\Framework\TestCase;
-use Kalider\Libs\Exception\DiskNotFoundException;
-use Kalider\Libs\File\File;
-use Kalider\Libs\Storage;
+use Kalider\Filesystem\Exception\DiskNotFoundException;
+use Kalider\Filesystem\File\File;
+use Kalider\Filesystem\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 final class StorageTest extends TestCase

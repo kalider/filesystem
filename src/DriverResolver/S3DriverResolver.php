@@ -1,6 +1,6 @@
 <?php
 
-namespace Kalider\Libs\DriverResolver;
+namespace Kalider\Filesystem\DriverResolver;
 
 use Aws\Credentials\CredentialProvider;
 use Aws\S3\S3Client;

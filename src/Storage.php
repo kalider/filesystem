@@ -1,13 +1,13 @@
 <?php
 
-namespace Kalider\Libs;
+namespace Kalider\Filesystem;
 
 use League\Flysystem\Filesystem;
-use Kalider\Libs\DriverResolver\BaseDriverResolver;
-use Kalider\Libs\DriverResolver\LocalDriverResolver;
-use Kalider\Libs\DriverResolver\S3DriverResolver;
-use Kalider\Libs\Exception\DiskNotFoundException;
-use Kalider\Libs\Exception\MissingRequiredParameterException;
+use Kalider\Filesystem\DriverResolver\BaseDriverResolver;
+use Kalider\Filesystem\DriverResolver\LocalDriverResolver;
+use Kalider\Filesystem\DriverResolver\S3DriverResolver;
+use Kalider\Filesystem\Exception\DiskNotFoundException;
+use Kalider\Filesystem\Exception\MissingRequiredParameterException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use voku\helper\ASCII;
 

@@ -1,8 +1,9 @@
 <?php
 
-namespace Kalider\Libs\File\Traits;
+namespace Kalider\Filesystem\File\Traits;
 
-use Kalider\Libs\Storage;
+use Kalider\Filesystem\Storage;
+use Symfony\Component\Validator\Validation;
 
 trait FileTraits
 {
@@ -74,4 +75,10 @@ trait FileTraits
         return $filename;
     }
 
+    public function validate($constraints)
+    {
+        $validator = Validation::createValidator();
+
+        return $validator->validate($this, $constraints);
+    }
 }
